@@ -36,7 +36,7 @@ public class Ip2LocationServiceTest {
         mockEntity.setLatitude(123.456);
         mockEntity.setLongitude(98.765);
 
-        when(ipConverter.convertIpv4ToInt(testIp)).thenReturn(16843009L);
+        when(ipConverter.convertIpv4ToLong(testIp)).thenReturn(16843009L);
         when(ip2LocationDao.getByIpFromLessThanAndIpToGreaterThan(16843009L)).thenReturn(Optional.of(mockEntity));
 
         Assertions.assertEquals(Optional.of(mockEntity), ip2LocationService.get(testIp));

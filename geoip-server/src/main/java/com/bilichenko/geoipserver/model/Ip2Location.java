@@ -13,4 +13,8 @@ public class Ip2Location {
     private String cityName;
     private Double latitude;
     private Double longitude;
+
+    // transient fields - not persisted in db
+    private Long ipv4;
+    private String canonicalIPv4Representation;
 }

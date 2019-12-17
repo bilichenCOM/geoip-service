@@ -2,7 +2,7 @@ package com.bilichenko.geoipserver.dao;
 
 import com.bilichenko.geoipserver.model.Ip2Location;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,9 +29,10 @@ public class Ip2LocationRdbDao implements Ip2LocationDao {
         params.addValue("decimalIp", decimalIp);
         try {
             Ip2Location entity = jdbcTemplate.queryForObject(sql, params, new Ip2LocationRowMapper());
-            return Optional.of(entity);
-        } catch (DataAccessException e) {}
-        return Optional.empty();
+            return Optional.ofNullable(entity);
+        } catch (EmptyResultDataAccessException e) { // thrown when no result found for query
+            return Optional.empty();
+        }
     }
 
     private class Ip2LocationRowMapper implements RowMapper<Ip2Location> {
